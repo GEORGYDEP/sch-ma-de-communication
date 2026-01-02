@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComQuest - Maîtrise la Communication 📡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #C75B39;
+            --terracotta-light: #E8785A;
+            --olive: #6B7B3C;
+            --olive-light: #8FA04F;
+            --mediterranean: #2B6A7C;
+            --mediterranean-light: #3D8FA6;
+            --cream: #FDF8F3;
+            --gold: #D4A853;
+            --dark: #2C2416;
+            --shadow: rgba(44, 36, 22, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #F5EDE3 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Decorative background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(199, 91, 57, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(43, 106, 124, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(107, 123, 60, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-light) 100%);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(255,255,255,0.03) 20px,
+                rgba(255,255,255,0.03) 40px
+            );
+            animation: shimmer 20s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(50%); }
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            position: relative;
+        }
+
+        /* Score bar */
+        .score-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: relative;
+            z-index: 10;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .score-icon {
+            font-size: 1.5rem;
+        }
+
+        .score-value {
+            font-size: 1.2rem;
+            color: var(--terracotta);
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Welcome screen */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--terracotta), var(--gold), var(--olive), var(--mediterranean));
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--mediterranean);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Level selection */
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .level-card {
+            background: linear-gradient(135deg, var(--cream) 0%, white 100%);
+            border: 3px solid transparent;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow);
+        }
+
+        .level-card.level-1 { border-color: var(--olive); }
+        .level-card.level-2 { border-color: var(--mediterranean); }
+        .level-card.level-3 { border-color: var(--terracotta); }
+        .level-card.level-4 { border-color: var(--gold); }
+
+        .level-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .level-card.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: var(--olive);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .level-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-1 .level-number { color: var(--olive); }
+        .level-2 .level-number { color: var(--mediterranean); }
+        .level-3 .level-number { color: var(--terracotta); }
+        .level-4 .level-number { color: var(--gold); }
+
+        .level-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .level-desc {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-light) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(199, 91, 57, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 91, 57, 0.5);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--mediterranean) 0%, var(--mediterranean-light) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(43, 106, 124, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 106, 124, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--olive) 0%, var(--olive-light) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(107, 123, 60, 0.4);
+        }
+
+        /* Question area */
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px dashed #eee;
+        }
+
+        .question-progress {
+            font-weight: 600;
+            color: var(--mediterranean);
+        }
+
+        .question-timer {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--terracotta);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .question-context {
+            background: linear-gradient(135deg, #f8f4ef 0%, #fff 100%);
+            border-left: 4px solid var(--gold);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Answer options */
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            background: linear-gradient(135deg, #fafafa 0%, white 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option:hover {
+            border-color: var(--mediterranean);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .option.selected {
+            border-color: var(--mediterranean);
+            background: linear-gradient(135deg, rgba(43, 106, 124, 0.1) 0%, rgba(43, 106, 124, 0.05) 100%);
+        }
+
+        .option.correct {
+            border-color: var(--olive);
+            background: linear-gradient(135deg, rgba(107, 123, 60, 0.2) 0%, rgba(107, 123, 60, 0.1) 100%);
+            animation: pulse 0.5s ease;
+        }
+
+        .option.incorrect {
+            border-color: var(--terracotta);
+            background: linear-gradient(135deg, rgba(199, 91, 57, 0.2) 0%, rgba(199, 91, 57, 0.1) 100%);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .option-letter {
+            width: 40px;
+            height: 40px;
+            background: var(--mediterranean);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter {
+            background: var(--olive);
+        }
+
+        .option.incorrect .option-letter {
+            background: var(--terracotta);
+        }
+
+        .option-text {
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        /* Drag and drop */
+        .drag-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .drag-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            padding: 1.5rem;
+            background: #f5f5f5;
+            border-radius: 12px;
+            min-height: 80px;
+        }
+
+        .drag-item {
+            background: linear-gradient(135deg, var(--mediterranean) 0%, var(--mediterranean-light) 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: grab;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .drag-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(43, 106, 124, 0.4);
+        }
+
+        .drag-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .drop-zones {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .drop-zone {
+            background: white;
+            border: 3px dashed #ccc;
+            border-radius: 16px;
+            padding: 1.5rem;
+            min-height: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.dragover {
+            border-color: var(--mediterranean);
+            background: rgba(43, 106, 124, 0.05);
+        }
+
+        .drop-zone-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            text-align: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .drop-zone.sync .drop-zone-title { color: var(--olive); }
+        .drop-zone.async .drop-zone-title { color: var(--terracotta); }
+        .drop-zone.inter .drop-zone-title { color: var(--mediterranean); }
+        .drop-zone.mass .drop-zone-title { color: var(--gold); }
+
+        .drop-zone-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            min-height: 50px;
+        }
+
+        .dropped-item {
+            background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%);
+            color: var(--dark);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dropped-item:hover {
+            background: linear-gradient(135deg, #ff9999 0%, #ffaaaa 100%);
+        }
+
+        /* Feedback */
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.success {
+            background: linear-gradient(135deg, rgba(107, 123, 60, 0.15) 0%, rgba(107, 123, 60, 0.05) 100%);
+            border-left: 4px solid var(--olive);
+        }
+
+        .feedback.error {
+            background: linear-gradient(135deg, rgba(199, 91, 57, 0.15) 0%, rgba(199, 91, 57, 0.05) 100%);
+            border-left: 4px solid var(--terracotta);
+        }
+
+        .feedback-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback.success .feedback-title { color: var(--olive); }
+        .feedback.error .feedback-title { color: var(--terracotta); }
+
+        .feedback-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Results */
+        .results-container {
+            text-align: center;
+        }
+
+        .results-score {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--terracotta), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 1rem 0;
+        }
+
+        .results-stars {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .results-message {
+            font-size: 1.3rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .results-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #f8f4ef 0%, white 100%);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            min-width: 120px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--mediterranean);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 0.3rem;
+        }
+
+        /* Theory popup */
+        .theory-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .theory-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .theory-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .theory-header {
+            background: linear-gradient(135deg, var(--mediterranean) 0%, var(--mediterranean-light) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 20px 20px 0 0;
+            position: sticky;
+            top: 0;
+        }
+
+        .theory-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        .theory-body {
+            padding: 2rem;
+        }
+
+        .theory-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .theory-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .theory-diagram {
+            background: #f8f4ef;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .theory-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .theory-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .theory-list li:last-child {
+            border-bottom: none;
+        }
+
+        .theory-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--terracotta);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Buttons container */
+        .buttons-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--olive), var(--olive-light));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Matching game */
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .matching-item {
+            background: linear-gradient(135deg, #fafafa 0%, white 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .matching-item:hover {
+            border-color: var(--mediterranean);
+            transform: scale(1.02);
+        }
+
+        .matching-item.selected {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(212, 168, 83, 0.05) 100%);
+        }
+
+        .matching-item.matched {
+            border-color: var(--olive);
+            background: linear-gradient(135deg, rgba(107, 123, 60, 0.2) 0%, rgba(107, 123, 60, 0.1) 100%);
+            pointer-events: none;
+        }
+
+        .matching-lines {
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 2rem;
+        }
+
+        /* Help button */
+        .help-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold) 0%, #e0b85c 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .help-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .drop-zones {
+                grid-template-columns: 1fr;
+            }
+
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+
+            .matching-lines {
+                display: none;
+            }
+
+            .score-bar {
+                gap: 1rem;
+            }
+
+            .results-score {
+                font-size: 3.5rem;
+            }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            top: -20px;
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                top: 100vh;
+                transform: rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="logo">Com<span>Quest</span> 📡</h1>
+        <p class="subtitle">Maîtrise le Schéma de Communication</p>
+    </header>
+
+    <!-- Score Bar -->
+    <div class="score-bar">
+        <div class="score-item">
+            <span class="score-icon">⭐</span>
+            <span>Score: </span>
+            <span class="score-value" id="total-score">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-icon">🏆</span>
+            <span>Niveau: </span>
+            <span class="score-value" id="current-level">-</span>
+        </div>
+        <div class="score-item">
+            <span class="score-icon">✅</span>
+            <span>Réussi: </span>
+            <span class="score-value" id="correct-count">0</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="card">
+                <h2 class="card-title">🎮 Bienvenue dans ComQuest !</h2>
+                <p class="card-text">
+                    Prêt à devenir un expert de la communication ? <br>
+                    Explore les différents niveaux pour maîtriser le schéma de Shannon-Weaver, 
+                    les types de communication et bien plus encore !
+                </p>
+                
+                <div class="levels-grid">
+                    <div class="level-card level-1" onclick="startLevel(1)">
+                        <div class="level-number">1</div>
+                        <div class="level-title">Les 6 Éléments</div>
+                        <div class="level-desc">Émetteur, Récepteur, Message...</div>
+                    </div>
+                    
+                    <div class="level-card level-2" onclick="startLevel(2)">
+                        <div class="level-number">2</div>
+                        <div class="level-title">Sync vs Async</div>
+                        <div class="level-desc">En direct ou en différé ?</div>
+                    </div>
+                    
+                    <div class="level-card level-3" onclick="startLevel(3)">
+                        <div class="level-number">3</div>
+                        <div class="level-title">Inter vs Mass</div>
+                        <div class="level-desc">Personnel ou public ?</div>
+                    </div>
+                    
+                    <div class="level-card level-4" onclick="startLevel(4)">
+                        <div class="level-number">4</div>
+                        <div class="level-title">Quiz Expert</div>
+                        <div class="level-desc">Études de cas complètes</div>
+                    </div>
+                </div>
+                
+                <div class="buttons-container">
+                    <button class="btn btn-primary" onclick="startLevel(1)">🚀 Commencer l'aventure</button>
+                    <button class="btn btn-secondary" onclick="showTheory()">📚 Réviser la théorie</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="screen">
+            <div class="card">
+                <div class="question-header">
+                    <span class="question-progress" id="question-progress">Question 1/5</span>
+                    <span class="question-timer" id="question-timer">⏱️ <span id="timer-value">--</span></span>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                </div>
+                
+                <div id="question-container">
+                    <!-- Question content loaded dynamically -->
+                </div>
+                
+                <div id="feedback" class="feedback">
+                    <div class="feedback-title" id="feedback-title"></div>
+                    <div class="feedback-text" id="feedback-text"></div>
+                </div>
+                
+                <div class="buttons-container" id="game-buttons">
+                    <button class="btn btn-secondary" onclick="showTheoryForLevel()">💡 Aide</button>
+                    <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" style="display: none;">Suivant →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="screen">
+            <div class="card results-container">
+                <h2 class="card-title" id="results-title">🎉 Niveau Terminé !</h2>
+                <div class="results-score" id="results-score">0%</div>
+                <div class="results-stars" id="results-stars">⭐⭐⭐</div>
+                <p class="results-message" id="results-message">Excellent travail !</p>
+                
+                <div class="results-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-correct">0</div>
+                        <div class="stat-label">Bonnes réponses</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-total">0</div>
+                        <div class="stat-label">Questions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="stat-points">0</div>
+                        <div class="stat-label">Points gagnés</div>
+                    </div>
+                </div>
+                
+                <div class="buttons-container">
+                    <button class="btn btn-secondary" onclick="goToMenu()">🏠 Menu</button>
+                    <button class="btn btn-primary" id="retry-btn" onclick="retryLevel()">🔄 Réessayer</button>
+                    <button class="btn btn-success" id="next-level-btn" onclick="nextLevel()">Niveau suivant →</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Help Button -->
+    <button class="help-btn" onclick="showTheory()" title="Voir la théorie">📖</button>
+
+    <!-- Theory Modal -->
+    <div id="theory-modal" class="theory-modal">
+        <div class="theory-content">
+            <div class="theory-header">
+                <h3 id="theory-title">📚 Théorie - Le Schéma de Communication</h3>
+                <button class="theory-close" onclick="hideTheory()">×</button>
+            </div>
+            <div class="theory-body" id="theory-body">
+                <!-- Theory content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti container -->
+    <div id="confetti" class="confetti"></div>
+
+    <script>
+        // Game State
+        let gameState = {
+            totalScore: 0,
+            currentLevel: 0,
+            currentQuestion: 0,
+            levelScore: 0,
+            correctAnswers: 0,
+            completedLevels: [],
+            questions: []
+        };
+
+        // Questions Database
+        const questionsDB = {
+            // Level 1: Les 6 éléments
+            1: [
+                {
+                    type: 'mcq',
+                    question: "Dans le schéma de communication, comment appelle-t-on la personne qui ENVOIE le message ?",
+                    options: ["Le récepteur", "L'émetteur", "Le canal", "Le feedback"],
+                    correct: 1,
+                    explanation: "L'ÉMETTEUR est celui qui crée et envoie le message. Par exemple, toi quand tu postes sur Instagram !"
+                },
+                {
+                    type: 'mcq',
+                    question: "Sophie reçoit un SMS de son ami Lucas. Qui est le RÉCEPTEUR dans cette situation ?",
+                    options: ["Lucas", "Le téléphone", "Sophie", "Le SMS"],
+                    correct: 2,
+                    explanation: "Le RÉCEPTEUR est celui qui reçoit le message. Sophie reçoit le SMS, elle est donc la réceptrice."
+                },
+                {
+                    type: 'mcq',
+                    question: "Tu regardes une vidéo TikTok sur ton smartphone. Quel est le CANAL utilisé ?",
+                    options: ["La vidéo", "TikTok + Smartphone + Internet", "Le créateur de la vidéo", "Toi qui regardes"],
+                    correct: 1,
+                    explanation: "Le CANAL (ou média) est le support qui transporte le message : ici c'est l'application TikTok via ton smartphone connecté à Internet."
+                },
+                {
+                    type: 'mcq',
+                    question: "Quand tu mets un 'like' sur une publication Instagram, tu donnes un...",
+                    options: ["Message", "Canal", "Contexte", "Feedback"],
+                    correct: 3,
+                    explanation: "Le FEEDBACK est la réponse du récepteur à l'émetteur. Un like, un commentaire ou un partage sont des formes de feedback !"
+                },
+                {
+                    type: 'mcq',
+                    question: "Tu discutes avec ton prof en classe un lundi matin. Le fait que ce soit 'en classe, le lundi matin' représente...",
+                    options: ["Le message", "Le contexte", "Le bruit", "L'émetteur"],
+                    correct: 1,
+                    explanation: "Le CONTEXTE englobe l'environnement de la communication : le lieu (classe), le moment (lundi matin), la relation (prof/élève)..."
+                },
+                {
+                    type: 'mcq',
+                    question: "Ta connexion Internet rame pendant un appel vidéo. L'image est pixelisée. C'est un exemple de...",
+                    options: ["Feedback négatif", "Bruit physique", "Bruit sémantique", "Message perturbé"],
+                    correct: 1,
+                    explanation: "Le BRUIT PHYSIQUE perturbe techniquement la communication : mauvaise connexion, son coupé, image floue..."
+                },
+                {
+                    type: 'mcq',
+                    question: "Ton correspondant anglais utilise du vocabulaire que tu ne comprends pas. C'est un exemple de...",
+                    options: ["Bruit physique", "Bruit psychologique", "Bruit sémantique", "Mauvais canal"],
+                    correct: 2,
+                    explanation: "Le BRUIT SÉMANTIQUE concerne l'incompréhension du vocabulaire ou de la langue. Le message est bien transmis mais pas compris."
+                }
+            ],
+
+            // Level 2: Synchrone vs Asynchrone
+            2: [
+                {
+                    type: 'drag',
+                    question: "Classe ces communications : SYNCHRONE (en même temps) ou ASYNCHRONE (en différé)",
+                    items: [
+                        "Appel FaceTime",
+                        "Message vocal WhatsApp",
+                        "Live TikTok",
+                        "Post Instagram",
+                        "Visioconférence Teams",
+                        "E-mail"
+                    ],
+                    zones: {
+                        sync: ["Appel FaceTime", "Live TikTok", "Visioconférence Teams"],
+                        async: ["Message vocal WhatsApp", "Post Instagram", "E-mail"]
+                    },
+                    explanation: "SYNCHRONE = en même temps (appels, lives, visio). ASYNCHRONE = en différé (messages, posts, e-mails)."
+                },
+                {
+                    type: 'mcq',
+                    question: "Tu regardes le JT de 19h30 EN DIRECT sur la RTBF. Cette communication est...",
+                    options: ["Asynchrone car c'est une émission préenregistrée", "Synchrone car tu regardes en temps réel", "Ni l'un ni l'autre", "Les deux à la fois"],
+                    correct: 1,
+                    explanation: "Regarder une émission EN DIRECT est SYNCHRONE : tu reçois le message au moment même où il est diffusé."
+                },
+                {
+                    type: 'mcq',
+                    question: "Quelle est la caractéristique PRINCIPALE d'une communication asynchrone ?",
+                    options: ["Elle nécessite Internet", "Il y a un délai entre l'envoi et la réception", "Elle est moins efficace", "Elle utilise uniquement du texte"],
+                    correct: 1,
+                    explanation: "La communication ASYNCHRONE se caractérise par un DÉLAI entre l'envoi et la réception du message. Le récepteur consulte quand il veut."
+                },
+                {
+                    type: 'mcq',
+                    question: "Un streamer fait un live sur Twitch. 500 personnes regardent en direct. C'est une communication...",
+                    options: ["Asynchrone car les viewers peuvent revoir le stream", "Synchrone car tout se passe en temps réel", "Interpersonnelle car il répond aux commentaires", "Mass-média car c'est un grand public"],
+                    correct: 1,
+                    explanation: "Un LIVE est SYNCHRONE : le streamer et les viewers interagissent en TEMPS RÉEL, même si le replay sera asynchrone."
+                },
+                {
+                    type: 'mcq',
+                    question: "Quel média peut être AUSSI BIEN synchrone qu'asynchrone selon son utilisation ?",
+                    options: ["Le livre", "La lettre postale", "La télévision", "Le SMS"],
+                    correct: 2,
+                    explanation: "La TÉLÉVISION peut être synchrone (direct, live) ou asynchrone (replay, émissions préenregistrées)."
+                }
+            ],
+
+            // Level 3: Interpersonnel vs Mass-média
+            3: [
+                {
+                    type: 'drag',
+                    question: "Classe ces communications : INTERPERSONNELLE (entre individus) ou MASS-MÉDIA (vers un large public)",
+                    items: [
+                        "Discussion avec un ami",
+                        "Journal télévisé",
+                        "Message privé Instagram",
+                        "Vidéo YouTube publique",
+                        "E-mail à ton prof",
+                        "Publicité TV"
+                    ],
+                    zones: {
+                        inter: ["Discussion avec un ami", "Message privé Instagram", "E-mail à ton prof"],
+                        mass: ["Journal télévisé", "Vidéo YouTube publique", "Publicité TV"]
+                    },
+                    explanation: "INTERPERSONNELLE = entre individus (1 à 1 ou petit groupe). MASS-MÉDIA = vers un public large et souvent anonyme."
+                },
+                {
+                    type: 'mcq',
+                    question: "Emma poste une photo de vacances visible par ses 500 abonnés Instagram. C'est une communication...",
+                    options: ["Interpersonnelle car ce sont ses amis", "Mass-média car elle s'adresse à un large public", "Privée car c'est son compte", "Directe car elle a posté elle-même"],
+                    correct: 1,
+                    explanation: "Poster publiquement pour 500 personnes = MASS-MÉDIA. Le message s'adresse à un public nombreux, même si ce sont des 'amis'."
+                },
+                {
+                    type: 'mcq',
+                    question: "Une communication interpersonnelle DIRECTE utilise...",
+                    options: ["Un téléphone", "Internet", "Le face-à-face", "Les réseaux sociaux"],
+                    correct: 2,
+                    explanation: "La communication interpersonnelle DIRECTE se fait en FACE-À-FACE, sans intermédiaire technique. Elle utilise tous les sens !"
+                },
+                {
+                    type: 'mcq',
+                    question: "Tu envoies un e-mail à ton professeur pour justifier une absence. C'est une communication...",
+                    options: ["Mass-média car tu utilises Internet", "Interpersonnelle indirecte", "Asynchrone et mass-média", "Synchrone et interpersonnelle"],
+                    correct: 1,
+                    explanation: "Un e-mail à une personne précise = INTERPERSONNELLE (1 à 1). INDIRECTE car tu passes par un média (ordinateur, Internet)."
+                },
+                {
+                    type: 'mcq',
+                    question: "Quelle est la particularité des réseaux sociaux par rapport aux médias traditionnels ?",
+                    options: ["Ils sont toujours gratuits", "N'importe qui peut être émetteur ET récepteur facilement", "Ils ne permettent pas le feedback", "Ils sont uniquement synchrones"],
+                    correct: 1,
+                    explanation: "Les NTIC (réseaux sociaux) permettent à chacun d'être ÉMETTEUR ET RÉCEPTEUR. Tu ne fais pas que recevoir, tu peux aussi créer et diffuser !"
+                }
+            ],
+
+            // Level 4: Expert Quiz - Case Studies
+            4: [
+                {
+                    type: 'case',
+                    context: "Lucas appelle sa copine en FaceTime pour lui raconter sa journée. Pendant l'appel, elle rit, pose des questions, et lui montre son chat.",
+                    question: "Cette communication est...",
+                    options: [
+                        "Synchrone, interpersonnelle directe",
+                        "Synchrone, interpersonnelle indirecte",
+                        "Asynchrone, interpersonnelle indirecte",
+                        "Synchrone, mass-média"
+                    ],
+                    correct: 1,
+                    explanation: "FaceTime = SYNCHRONE (temps réel) + INTERPERSONNELLE (1 à 1) + INDIRECTE (via un média/téléphone, pas face-à-face physique)."
+                },
+                {
+                    type: 'case',
+                    context: "Un influenceur TikTok publie une vidéo qui devient virale avec 2 millions de vues. Les gens commentent, likent et partagent.",
+                    question: "Quels éléments représentent le FEEDBACK dans cette situation ?",
+                    options: [
+                        "La vidéo publiée et TikTok",
+                        "Les 2 millions de vues, likes, commentaires et partages",
+                        "L'influenceur et ses abonnés",
+                        "Le smartphone et Internet"
+                    ],
+                    correct: 1,
+                    explanation: "Le FEEDBACK = réponse des récepteurs. Ici : vues, likes, commentaires, partages. C'est la réaction du public au message de l'influenceur."
+                },
+                {
+                    type: 'case',
+                    context: "Pendant un cours sur Teams, un élève a des problèmes de micro : on entend mal ce qu'il dit. De plus, il utilise des termes techniques que les autres ne comprennent pas.",
+                    question: "Quels types de BRUITS perturbent cette communication ?",
+                    options: [
+                        "Uniquement du bruit physique",
+                        "Uniquement du bruit sémantique",
+                        "Bruit physique ET bruit sémantique",
+                        "Bruit psychologique"
+                    ],
+                    correct: 2,
+                    explanation: "Problèmes de micro = BRUIT PHYSIQUE (technique). Termes incompris = BRUIT SÉMANTIQUE (vocabulaire). Les deux perturbent la communication !"
+                },
+                {
+                    type: 'case',
+                    context: "Le premier journal quotidien apparaît en 1777. En 2024, tu lis le même journal sur ton smartphone via leur application.",
+                    question: "Qu'est-ce qui a changé entre 1777 et 2024 ?",
+                    options: [
+                        "Le type de communication (sync/async)",
+                        "Le canal/média, mais pas le type de communication",
+                        "L'émetteur du message",
+                        "Le feedback n'existe plus"
+                    ],
+                    correct: 1,
+                    explanation: "Le CANAL a évolué (papier → smartphone/Internet), mais la communication reste ASYNCHRONE et MASS-MÉDIA. Les anciens médias coexistent avec les nouveaux !"
+                },
+                {
+                    type: 'case',
+                    context: "Tu participes à un live Instagram. Tu peux voir le streamer en direct et envoyer des commentaires qu'il lit et auxquels il répond immédiatement.",
+                    question: "Comment caractériser au mieux cette communication ?",
+                    options: [
+                        "Mass-média sans feedback",
+                        "Interpersonnelle synchrone",
+                        "Mass-média synchrone avec feedback en temps réel",
+                        "Asynchrone car tu peux revoir le live plus tard"
+                    ],
+                    correct: 2,
+                    explanation: "Un LIVE = SYNCHRONE (temps réel) + MASS-MÉDIA (public large) + FEEDBACK IMMÉDIAT (commentaires lus en direct). C'est la force des réseaux sociaux !"
+                },
+                {
+                    type: 'mcq',
+                    question: "Selon le modèle de Shannon-Weaver, combien y a-t-il d'éléments PRINCIPAUX dans le schéma de communication ?",
+                    options: ["4 éléments", "5 éléments", "6 éléments", "7 éléments"],
+                    correct: 2,
+                    explanation: "Les 6 éléments : ÉMETTEUR, RÉCEPTEUR, MESSAGE, CANAL, FEEDBACK, CONTEXTE. Le bruit est un élément perturbateur qui s'ajoute."
+                }
+            ]
+        };
+
+        // Theory content
+        const theoryContent = {
+            general: `
+                <h4>🎯 Le Modèle de Shannon-Weaver (1948)</h4>
+                <div class="theory-diagram">
+                    ÉMETTEUR → [Message] → CANAL/MÉDIA → [Message] → RÉCEPTEUR<br>
+                    ←←←←←←←←←←←← FEEDBACK ←←←←←←←←←←←←<br>
+                    [ dans un CONTEXTE donné, avec des BRUITS potentiels ]
+                </div>
+                
+                <h4>📋 Les 6 éléments de la communication</h4>
+                <ul class="theory-list">
+                    <li><span class="theory-icon">👤</span><div><strong>ÉMETTEUR</strong> : Celui qui envoie le message (toi quand tu postes)</div></li>
+                    <li><span class="theory-icon">👥</span><div><strong>RÉCEPTEUR</strong> : Celui qui reçoit le message (tes abonnés)</div></li>
+                    <li><span class="theory-icon">💬</span><div><strong>MESSAGE</strong> : L'information transmise (texte, image, vidéo...)</div></li>
+                    <li><span class="theory-icon">📱</span><div><strong>CANAL/MÉDIA</strong> : Le support qui transporte (smartphone, Internet...)</div></li>
+                    <li><span class="theory-icon">👍</span><div><strong>FEEDBACK</strong> : La réponse du récepteur (like, commentaire...)</div></li>
+                    <li><span class="theory-icon">🌍</span><div><strong>CONTEXTE</strong> : L'environnement (lieu, moment, relation...)</div></li>
+                </ul>
+                
+                <h4>🔊 Les types de bruit</h4>
+                <ul class="theory-list">
+                    <li><span class="theory-icon">📶</span><div><strong>Bruit physique</strong> : Problème technique (connexion, son coupé...)</div></li>
+                    <li><span class="theory-icon">🗣️</span><div><strong>Bruit sémantique</strong> : Vocabulaire incompris, langue étrangère</div></li>
+                    <li><span class="theory-icon">😰</span><div><strong>Bruit psychologique</strong> : Émotions, préjugés, stress</div></li>
+                </ul>
+            `,
+            1: `
+                <h4>🎯 Les 6 éléments du schéma de communication</h4>
+                <div class="theory-diagram">
+                    ÉMETTEUR → [Message] → CANAL/MÉDIA → [Message] → RÉCEPTEUR<br>
+                    ←←←←←←←←←←←← FEEDBACK ←←←←←←←←←←←←<br>
+                    [ dans un CONTEXTE donné ]
+                </div>
+                
+                <ul class="theory-list">
+                    <li><span class="theory-icon">👤</span><div><strong>ÉMETTEUR</strong> : Celui qui CRÉE et ENVOIE le message<br><em>Ex: Toi quand tu postes sur Instagram</em></div></li>
+                    <li><span class="theory-icon">👥</span><div><strong>RÉCEPTEUR</strong> : Celui qui REÇOIT le message<br><em>Ex: Tes abonnés qui voient ta story</em></div></li>
+                    <li><span class="theory-icon">💬</span><div><strong>MESSAGE</strong> : L'INFORMATION transmise<br><em>Ex: Ta photo, ton texte, ta vidéo</em></div></li>
+                    <li><span class="theory-icon">📱</span><div><strong>CANAL/MÉDIA</strong> : Le SUPPORT qui transporte le message<br><em>Ex: Smartphone + Internet + Instagram</em></div></li>
+                    <li><span class="theory-icon">👍</span><div><strong>FEEDBACK</strong> : La RÉPONSE du récepteur<br><em>Ex: Like, commentaire, partage, DM</em></div></li>
+                    <li><span class="theory-icon">🌍</span><div><strong>CONTEXTE</strong> : L'ENVIRONNEMENT de la communication<br><em>Ex: À la maison, le soir, entre amis</em></div></li>
+                </ul>
+                
+                <h4>🔊 Le bruit : ce qui PERTURBE la communication</h4>
+                <ul class="theory-list">
+                    <li><span class="theory-icon">📶</span><div><strong>Bruit physique</strong> : Mauvaise connexion, son coupé, image floue</div></li>
+                    <li><span class="theory-icon">🗣️</span><div><strong>Bruit sémantique</strong> : Vocabulaire incompris, langue étrangère</div></li>
+                    <li><span class="theory-icon">😰</span><div><strong>Bruit psychologique</strong> : Émotions, préjugés, stress</div></li>
+                </ul>
+            `,
+            2: `
+                <h4>⏱️ Synchrone vs Asynchrone</h4>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                    <div style="background: rgba(107, 123, 60, 0.1); padding: 1rem; border-radius: 10px; border-left: 4px solid var(--olive);">
+                        <strong style="color: var(--olive);">🔴 SYNCHRONE</strong><br>
+                        <em>En même temps</em><br><br>
+                        L'émetteur et le récepteur communiquent AU MÊME MOMENT
+                    </div>
+                    <div style="background: rgba(199, 91, 57, 0.1); padding: 1rem; border-radius: 10px; border-left: 4px solid var(--terracotta);">
+                        <strong style="color: var(--terracotta);">⏸️ ASYNCHRONE</strong><br>
+                        <em>En différé</em><br><br>
+                        Il y a un DÉLAI entre l'envoi et la réception
+                    </div>
+                </div>
+                
+                <h4>📋 Exemples</h4>
+                <ul class="theory-list">
+                    <li><span class="theory-icon" style="background: var(--olive);">🔴</span><div><strong>Synchrone</strong> : Appel téléphone/vidéo, face-à-face, live streaming, visioconférence</div></li>
+                    <li><span class="theory-icon" style="background: var(--terracotta);">⏸️</span><div><strong>Asynchrone</strong> : SMS, e-mail, post Instagram/TikTok, message vocal, lettre</div></li>
+                </ul>
+                
+                <p style="background: #f8f4ef; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    💡 <strong>Astuce</strong> : Certains médias comme la TV ou les réseaux sociaux peuvent être les DEUX selon l'usage (live = sync, replay/post = async)
+                </p>
+            `,
+            3: `
+                <h4>👥 Interpersonnel vs Mass-média</h4>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                    <div style="background: rgba(43, 106, 124, 0.1); padding: 1rem; border-radius: 10px; border-left: 4px solid var(--mediterranean);">
+                        <strong style="color: var(--mediterranean);">👤↔👤 INTERPERSONNELLE</strong><br>
+                        <em>Entre individus</em><br><br>
+                        Communication 1 à 1 ou petit groupe
+                    </div>
+                    <div style="background: rgba(212, 168, 83, 0.1); padding: 1rem; border-radius: 10px; border-left: 4px solid var(--gold);">
+                        <strong style="color: var(--gold);">👤→👥👥👥 MASS-MÉDIA</strong><br>
+                        <em>Vers un large public</em><br><br>
+                        Un émetteur s'adresse à la "masse"
+                    </div>
+                </div>
+                
+                <h4>📋 Interpersonnelle : Directe vs Indirecte</h4>
+                <ul class="theory-list">
+                    <li><span class="theory-icon" style="background: var(--mediterranean);">🤝</span><div><strong>Directe</strong> : Face-à-face, tous les sens utilisés (vue, ouïe, toucher...)</div></li>
+                    <li><span class="theory-icon" style="background: var(--mediterranean-light);">📱</span><div><strong>Indirecte</strong> : Via un média (téléphone, message, e-mail...)</div></li>
+                </ul>
+                
+                <h4>📋 Exemples</h4>
+                <ul class="theory-list">
+                    <li><span class="theory-icon" style="background: var(--mediterranean);">👥</span><div><strong>Interpersonnel</strong> : Discussion avec un ami, appel à tes parents, DM Instagram, e-mail au prof</div></li>
+                    <li><span class="theory-icon" style="background: var(--gold);">📺</span><div><strong>Mass-média</strong> : JT, vidéo YouTube publique, post TikTok viral, publicité</div></li>
+                </ul>
+                
+                <p style="background: #f8f4ef; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    💡 <strong>Particularité des NTIC</strong> : Les réseaux sociaux permettent à chacun d'être ÉMETTEUR ET RÉCEPTEUR facilement !
+                </p>
+            `,
+            4: `
+                <h4>🏆 Récapitulatif - L'essentiel à retenir</h4>
+                
+                <div class="theory-diagram">
+                    ÉMETTEUR → [Message] → CANAL/MÉDIA → [Message] → RÉCEPTEUR<br>
+                    ←←←←←←←←←←←← FEEDBACK ←←←←←←←←←←←←<br>
+                    [ CONTEXTE + BRUITS ]
+                </div>
+                
+                <ul class="theory-list">
+                    <li><span class="theory-icon">1</span><div><strong>6 éléments</strong> : Émetteur, Récepteur, Message, Canal, Feedback, Contexte (+ Bruit)</div></li>
+                    <li><span class="theory-icon">2</span><div><strong>Synchrone/Asynchrone</strong> : En même temps (appel, live) / En différé (message, post)</div></li>
+                    <li><span class="theory-icon">3</span><div><strong>Interpersonnel/Mass-média</strong> : Entre individus / Vers un large public</div></li>
+                    <li><span class="theory-icon">4</span><div><strong>Direct/Indirect</strong> : Face-à-face (tous les sens) / Via un média (sens réduits)</div></li>
+                    <li><span class="theory-icon">5</span><div><strong>NTIC</strong> : Les réseaux sociaux permettent d'être émetteur ET récepteur facilement</div></li>
+                </ul>
+                
+                <h4>📱 L'évolution des médias</h4>
+                <p style="margin: 1rem 0;">Les anciens médias ne disparaissent pas, ils coexistent avec les nouveaux !</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">📜 Écriture (-3000)</span>
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">📖 Imprimerie (1450)</span>
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">📞 Téléphone (1876)</span>
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">📺 Télévision (1950)</span>
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">🌐 Internet (1991)</span>
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">📱 Smartphone (2007)</span>
+                    <span style="background: #e8e8e8; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">🎵 TikTok (2016)</span>
+                </div>
+            `
+        };
+
+        // Level names
+        const levelNames = {
+            1: "Les 6 Éléments",
+            2: "Sync vs Async",
+            3: "Inter vs Mass",
+            4: "Quiz Expert"
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateScoreDisplay();
+            loadProgress();
+        });
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('comquest_progress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                gameState.totalScore = data.totalScore || 0;
+                gameState.completedLevels = data.completedLevels || [];
+                updateScoreDisplay();
+                updateLevelCards();
+            }
+        }
+
+        // Save progress
+        function saveProgress() {
+            localStorage.setItem('comquest_progress', JSON.stringify({
+                totalScore: gameState.totalScore,
+                completedLevels: gameState.completedLevels
+            }));
+        }
+
+        // Update score display
+        function updateScoreDisplay() {
+            document.getElementById('total-score').textContent = gameState.totalScore;
+            document.getElementById('current-level').textContent = gameState.currentLevel || '-';
+            document.getElementById('correct-count').textContent = gameState.correctAnswers;
+        }
+
+        // Update level cards
+        function updateLevelCards() {
+            gameState.completedLevels.forEach(level => {
+                const card = document.querySelector(`.level-${level}`);
+                if (card) card.classList.add('completed');
+            });
+        }
+
+        // Show screen
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Start level
+        function startLevel(level) {
+            gameState.currentLevel = level;
+            gameState.currentQuestion = 0;
+            gameState.levelScore = 0;
+            gameState.questions = [...questionsDB[level]];
+            shuffleArray(gameState.questions);
+            
+            updateScoreDisplay();
+            showScreen('game-screen');
+            loadQuestion();
+        }
+
+        // Shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Load question
+        function loadQuestion() {
+            const q = gameState.questions[gameState.currentQuestion];
+            const container = document.getElementById('question-container');
+            const progress = document.getElementById('question-progress');
+            const progressBar = document.getElementById('progress-bar');
+            const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
+            
+            // Update progress
+            progress.textContent = `Question ${gameState.currentQuestion + 1}/${gameState.questions.length}`;
+            progressBar.style.width = `${(gameState.currentQuestion / gameState.questions.length) * 100}%`;
+            
+            // Hide feedback and next button
+            feedback.classList.remove('show');
+            nextBtn.style.display = 'none';
+            
+            // Generate question HTML based on type
+            let html = '';
+            
+            if (q.context) {
+                html += `<div class="question-context">📖 ${q.context}</div>`;
+            }
+            
+            html += `<div class="question-text">${q.question}</div>`;
+            
+            if (q.type === 'mcq' || q.type === 'case') {
+                html += '<div class="options-grid">';
+                q.options.forEach((opt, i) => {
+                    html += `
+                        <div class="option" onclick="selectOption(${i})" data-index="${i}">
+                            <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+                            <span class="option-text">${opt}</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else if (q.type === 'drag') {
+                html += `
+                    <div class="drag-container">
+                        <div class="drag-items" id="drag-source">
+                            ${q.items.map(item => `
+                                <div class="drag-item" draggable="true" data-item="${item}">${item}</div>
+                            `).join('')}
+                        </div>
+                        <div class="drop-zones">
+                            ${Object.keys(q.zones).map(zone => `
+                                <div class="drop-zone ${zone}" data-zone="${zone}">
+                                    <div class="drop-zone-title">${zone === 'sync' ? '🔴 SYNCHRONE' : zone === 'async' ? '⏸️ ASYNCHRONE' : zone === 'inter' ? '👥 INTERPERSONNEL' : '📺 MASS-MÉDIA'}</div>
+                                    <div class="drop-zone-items"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="buttons-container">
+                            <button class="btn btn-primary" onclick="checkDragAnswer()">✓ Vérifier</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+            
+            // Setup drag and drop if needed
+            if (q.type === 'drag') {
+                setupDragDrop();
+            }
+        }
+
+        // Setup drag and drop
+        function setupDragDrop() {
+            const dragItems = document.querySelectorAll('.drag-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            const source = document.getElementById('drag-source');
+            
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', item.dataset.item);
+                    item.classList.add('dragging');
+                });
+                
+                item.addEventListener('dragend', () => {
+                    item.classList.remove('dragging');
+                });
+            });
+            
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('dragover');
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('dragover');
+                });
+                
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('dragover');
+                    const itemText = e.dataTransfer.getData('text/plain');
+                    const dragItem = document.querySelector(`.drag-item[data-item="${itemText}"]`);
+                    
+                    if (dragItem) {
+                        const itemsContainer = zone.querySelector('.drop-zone-items');
+                        const droppedItem = document.createElement('div');
+                        droppedItem.className = 'dropped-item';
+                        droppedItem.textContent = itemText;
+                        droppedItem.dataset.item = itemText;
+                        droppedItem.onclick = () => returnToSource(droppedItem, itemText);
+                        itemsContainer.appendChild(droppedItem);
+                        dragItem.remove();
+                    }
+                });
+            });
+            
+            // Also allow dropping back to source
+            source.addEventListener('dragover', (e) => e.preventDefault());
+            source.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const itemText = e.dataTransfer.getData('text/plain');
+                const dragItem = document.querySelector(`.drag-item[data-item="${itemText}"]`);
+                if (!dragItem) {
+                    // Item was in a drop zone, return it
+                    const droppedItem = document.querySelector(`.dropped-item[data-item="${itemText}"]`);
+                    if (droppedItem) {
+                        droppedItem.remove();
+                        const newDragItem = document.createElement('div');
+                        newDragItem.className = 'drag-item';
+                        newDragItem.draggable = true;
+                        newDragItem.dataset.item = itemText;
+                        newDragItem.textContent = itemText;
+                        newDragItem.addEventListener('dragstart', (e) => {
+                            e.dataTransfer.setData('text/plain', itemText);
+                            newDragItem.classList.add('dragging');
+                        });
+                        newDragItem.addEventListener('dragend', () => {
+                            newDragItem.classList.remove('dragging');
+                        });
+                        source.appendChild(newDragItem);
+                    }
+                }
+            });
+        }
+
+        // Return item to source
+        function returnToSource(element, itemText) {
+            element.remove();
+            const source = document.getElementById('drag-source');
+            const newDragItem = document.createElement('div');
+            newDragItem.className = 'drag-item';
+            newDragItem.draggable = true;
+            newDragItem.dataset.item = itemText;
+            newDragItem.textContent = itemText;
+            newDragItem.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', itemText);
+                newDragItem.classList.add('dragging');
+            });
+            newDragItem.addEventListener('dragend', () => {
+                newDragItem.classList.remove('dragging');
+            });
+            source.appendChild(newDragItem);
+        }
+
+        // Check drag answer
+        function checkDragAnswer() {
+            const q = gameState.questions[gameState.currentQuestion];
+            let correct = true;
+            
+            Object.keys(q.zones).forEach(zone => {
+                const zoneElement = document.querySelector(`.drop-zone[data-zone="${zone}"]`);
+                const items = zoneElement.querySelectorAll('.dropped-item');
+                const expectedItems = q.zones[zone];
+                
+                items.forEach(item => {
+                    if (!expectedItems.includes(item.dataset.item)) {
+                        correct = false;
+                    }
+                });
+                
+                if (items.length !== expectedItems.length) {
+                    correct = false;
+                }
+            });
+            
+            showFeedback(correct, q.explanation);
+        }
+
+        // Select MCQ option
+        function selectOption(index) {
+            const q = gameState.questions[gameState.currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            // Disable all options
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            // Mark selected and correct/incorrect
+            options[index].classList.add('selected');
+            
+            const isCorrect = index === q.correct;
+            
+            if (isCorrect) {
+                options[index].classList.add('correct');
+            } else {
+                options[index].classList.add('incorrect');
+                options[q.correct].classList.add('correct');
+            }
+            
+            showFeedback(isCorrect, q.explanation);
+        }
+
+        // Show feedback
+        function showFeedback(isCorrect, explanation) {
+            const feedback = document.getElementById('feedback');
+            const title = document.getElementById('feedback-title');
+            const text = document.getElementById('feedback-text');
+            const nextBtn = document.getElementById('next-btn');
+            
+            if (isCorrect) {
+                gameState.levelScore += 10;
+                gameState.correctAnswers++;
+                feedback.className = 'feedback success show';
+                title.textContent = '✅ Excellent !';
+            } else {
+                feedback.className = 'feedback error show';
+                title.textContent = '❌ Pas tout à fait...';
+            }
+            
+            text.textContent = explanation;
+            nextBtn.style.display = 'inline-block';
+            updateScoreDisplay();
+        }
+
+        // Next question
+        function nextQuestion() {
+            gameState.currentQuestion++;
+            
+            if (gameState.currentQuestion >= gameState.questions.length) {
+                endLevel();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        // End level
+        function endLevel() {
+            const totalQuestions = gameState.questions.length;
+            const correctAnswers = Math.round(gameState.levelScore / 10);
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            // Update total score
+            gameState.totalScore += gameState.levelScore;
+            
+            // Mark level as completed if >= 60%
+            if (percentage >= 60 && !gameState.completedLevels.includes(gameState.currentLevel)) {
+                gameState.completedLevels.push(gameState.currentLevel);
+            }
+            
+            saveProgress();
+            
+            // Update results screen
+            document.getElementById('results-score').textContent = `${percentage}%`;
+            document.getElementById('stat-correct').textContent = correctAnswers;
+            document.getElementById('stat-total').textContent = totalQuestions;
+            document.getElementById('stat-points').textContent = gameState.levelScore;
+            
+            // Stars
+            let stars = '';
+            if (percentage >= 90) stars = '⭐⭐⭐';
+            else if (percentage >= 70) stars = '⭐⭐';
+            else if (percentage >= 50) stars = '⭐';
+            else stars = '😅';
+            document.getElementById('results-stars').textContent = stars;
+            
+            // Message
+            let message = '';
+            if (percentage >= 90) message = 'Fantastique ! Tu maîtrises ce niveau !';
+            else if (percentage >= 70) message = 'Très bien ! Continue comme ça !';
+            else if (percentage >= 50) message = 'Pas mal ! Tu peux encore t\'améliorer !';
+            else message = 'Courage ! Révise la théorie et réessaie !';
+            document.getElementById('results-message').textContent = message;
+            
+            // Show/hide next level button
+            const nextLevelBtn = document.getElementById('next-level-btn');
+            if (gameState.currentLevel < 4 && percentage >= 60) {
+                nextLevelBtn.style.display = 'inline-block';
+            } else {
+                nextLevelBtn.style.display = 'none';
+            }
+            
+            showScreen('results-screen');
+            updateLevelCards();
+            
+            // Confetti if good score
+            if (percentage >= 70) {
+                createConfetti();
+            }
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            container.innerHTML = '';
+            
+            const colors = ['#C75B39', '#6B7B3C', '#2B6A7C', '#D4A853', '#E8785A'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                container.appendChild(piece);
+            }
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Go to menu
+        function goToMenu() {
+            showScreen('welcome-screen');
+            updateScoreDisplay();
+        }
+
+        // Retry level
+        function retryLevel() {
+            startLevel(gameState.currentLevel);
+        }
+
+        // Next level
+        function nextLevel() {
+            if (gameState.currentLevel < 4) {
+                startLevel(gameState.currentLevel + 1);
+            }
+        }
+
+        // Show theory
+        function showTheory() {
+            document.getElementById('theory-title').textContent = '📚 Théorie - Le Schéma de Communication';
+            document.getElementById('theory-body').innerHTML = theoryContent.general;
+            document.getElementById('theory-modal').classList.add('show');
+        }
+
+        // Show theory for current level
+        function showTheoryForLevel() {
+            const level = gameState.currentLevel;
+            document.getElementById('theory-title').textContent = `📚 Aide - Niveau ${level}: ${levelNames[level]}`;
+            document.getElementById('theory-body').innerHTML = theoryContent[level];
+            document.getElementById('theory-modal').classList.add('show');
+        }
+
+        // Hide theory
+        function hideTheory() {
+            document.getElementById('theory-modal').classList.remove('show');
+        }
+
+        // Close modal on outside click
+        document.getElementById('theory-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideTheory();
+            }
+        });
+    </script>
+</body>
+</html>
